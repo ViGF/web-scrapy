@@ -21,7 +21,17 @@ def writeInfos(soup):
         accommodation = description.next_sibling.text
         description = description.text
         title = title.text
+        neighbourhood = title.split(' em ')[1]
         price = price.text.replace('Total de ', '')
+        typeAcomodation = 'Outro'
+
+        if title.__contains__('Apartamento'):
+            typeAcomodation = 'Apartamento'
+        elif title.__contains__('Quarto inteiro'):
+            typeAcomodation = 'Quarto inteiro'
+        elif title.__contains__('Quarto compartilhado'):
+            typeAcomodation = 'Quarto compartilhado'
+
         if rating.text != 'Novo':
             ratingString = rating.text.split(' ')
             rating = ratingString[0]
@@ -30,9 +40,11 @@ def writeInfos(soup):
             rating = 0
             evaluators = 0
 
-        arq_csv.write(f"{title};{description};{accommodation};{rating};{evaluators};{price}\n")
+        arq_csv.write(
+            f"{title};{description};{accommodation};{neighbourhood};{rating};{evaluators};{typeAcomodation};{price}\n"
+        )
 
-arq_csv.write("title;description;accommodation;rating;evaluators;price\n")
+arq_csv.write("title;description;accommodation;neighbourhood;rating;evaluators;typeAcomodation;price\n")
 
 url = baseUrl + query
 soup = getHTML(url)
