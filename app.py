@@ -34,7 +34,7 @@ def writeInfos(soup):
 
         if rating.text != 'Novo':
             ratingString = rating.text.split(' ')
-            rating = ratingString[0]
+            rating = ratingString[0].replace(',', '.')
             evaluators = ratingString[1].replace('(', '').replace(')', '')
         else:
             rating = 0
